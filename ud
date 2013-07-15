@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby2.0
+
+require 'json'
+require 'net/http'
+
+if ARGV.length == 0 then
+    puts "usage: rb <term to look up>\n"
+    exit
+end
+
+def lookup(term)
+    uri = URI('http://api.urbandictionary.com/v0/define')
+    params = { :term => term }
+    uri.query = URI.encode_www_form(params)
+    res = Net::HTTP.get_response(uri)
+    return res.body
+end
+
+def parse(body)
+    hash = JSON.parse(body)
+    entries = hash["list"]
+    entries.each do |e|
+        puts ("-" * 80)
+        puts (e["author"] + " says:\n")
+        puts wrap(e["definition"], 78) + "\n"
+    end
+end
+
+def wrap(s, width=78)
+    s.gsub(/(.{1,#{width}})(\s+|\Z)/, "\\1\n")
+end
+
+term = ARGV.map { |x| x.to_str }.join(' ')
+parse(lookup(term))
+
