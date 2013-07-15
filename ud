@@ -10,10 +10,8 @@ end
 
 def lookup(term)
     uri = URI('http://api.urbandictionary.com/v0/define')
-    params = { :term => term }
-    uri.query = URI.encode_www_form(params)
-    res = Net::HTTP.get_response(uri)
-    return res.body
+    uri.query = URI.encode_www_form({:term => term})
+    return Net::HTTP.get_response(uri).body
 end
 
 def parse(body)
