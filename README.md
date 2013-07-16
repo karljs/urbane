@@ -1,4 +1,4 @@
-This is a trivial Ruby 2 script to perform Urban Dictionary lookups from the
+This is a trivial Ruby 1.9+ script to perform Urban Dictionary lookups from the
 command line.  Just execute it by running
 
 `ud <term to look up>`
